@@ -1,61 +1,64 @@
-'use strict'
-const Subprovider = require('./subprovider')
-const Transaction = require('ethereumjs-tx')
-const ethUtil = require('ethereumjs-util')
-const blockTagForPayload = require('web3-provider-engine/util/rpc-cache-utils').blockTagForPayload
+const ethUtil = require('ethereumjs-util');
+const Transaction = require('ethereumjs-tx');
+const { blockTagForPayload } = require('web3-provider-engine/util/rpc-cache-utils');
+const Subprovider = require('./subprovider');
 
 class NonceTrackerSubprovider extends Subprovider {
-  constructor (opts) {
-    super()
-    this.nonceCache = {}
-    this.handleRequest = this.handleRequest.bind(this)
+  constructor() { // FIXME: remove unused var 'opts'
+    super();
+    this.nonceCache = {};
+    this.handleRequest = this.handleRequest.bind(this);
   }
-  handleRequest (payload, next, end) {
-    const self = this
+
+  handleRequest(payload, next, end) {
+    const self = this;
+    let address;
+    let blockTag;
+    let cachedResult;
     switch (payload.method) {
       case 'eth_getTransactionCount':
-        const blockTag = blockTagForPayload(payload)
-        const address = payload.params[0].toLowerCase()
-        const cachedResult = self.nonceCache[address]
+        blockTag = blockTagForPayload(payload);
+        address = payload.params[0].toLowerCase();
+        cachedResult = self.nonceCache[address];
         if (blockTag === 'pending') {
           if (cachedResult) {
-            end(null, cachedResult)
+            end(null, cachedResult);
           } else {
             next((error, result, cb) => {
-              if (error) { return cb() }
+              if (error) return cb();
               if (self.nonceCache[address] === undefined) {
-                self.nonceCache[address] = result
+                self.nonceCache[address] = result;
               }
-              cb()
-            })
+              return cb(); // FIXME: Expected to return a value at the end of arrow function.
+            });
           }
         } else {
-          next()
+          next();
         }
-        return
+        return;
       case 'eth_sendRawTransaction':
         next((error, result, cb) => {
           if (error) {
-            return cb()
+            return cb();
           }
-          const rawTx = payload.params[0].metaSignedTx
-          const tx = new Transaction(Buffer.from(ethUtil.stripHexPrefix(rawTx), 'hex'))
-          const address = '0x' + tx.to.toString('hex')
-          let nonce = ethUtil.bufferToInt(tx.nonce)
-          nonce++
-          let hexNonce = nonce.toString(16)
+          const rawTx = payload.params[0].metaSignedTx;
+          const tx = new Transaction(Buffer.from(ethUtil.stripHexPrefix(rawTx), 'hex'));
+          address = `0x${tx.to.toString('hex')}`;
+          let nonce = ethUtil.bufferToInt(tx.nonce);
+          nonce += 1; // FIXME: no-plusplus
+          let hexNonce = nonce.toString(16);
           if (hexNonce.length % 2) {
-            hexNonce = '0' + hexNonce
+            hexNonce = `0${hexNonce}`;
           }
-          hexNonce = '0x' + hexNonce
-          self.nonceCache[address] = hexNonce
-          cb()
-        })
-        return
+          hexNonce = `0x${hexNonce}`;
+          self.nonceCache[address] = hexNonce;
+          return cb();
+        });
+        return;
       default:
-        next()
+        next();
     }
   }
 }
 
-module.exports = NonceTrackerSubprovider
+module.exports = NonceTrackerSubprovider;
