@@ -1,6 +1,7 @@
 const util = require('ethereumjs-util');
-const secp256k1 = util.secp256k1;
 const Random = require('./random');
+
+const { secp256k1 } = util;
 
 function hex0x(buffer) {
   return util.addHexPrefix(buffer.toString('hex'));
@@ -8,6 +9,7 @@ function hex0x(buffer) {
 
 function fromPrivateKey(privateKey) {
   if (!Buffer.isBuffer(privateKey)) {
+    // eslint-disable-next-line no-param-reassign
     privateKey = Buffer.from(privateKey, 'hex');
   }
 
@@ -15,28 +17,27 @@ function fromPrivateKey(privateKey) {
   return {
     privateKey: hex0x(privateKey),
     publicKey: hex0x(publicKey),
-    address: hex0x(util.pubToAddress(publicKey));
-  }
+    address: hex0x(util.pubToAddress(publicKey)),
+  };
 }
 
 function generate(callback) {
   if (!Random.randomBytes) {
-    Random.randomBytes = Random.naclRandom
+    Random.randomBytes = Random.naclRandom;
   }
-  Random.randomBytes(32, function (error, rand) {
-    if (error) { return callback(error, null) }
+  Random.randomBytes(32, (error, rand) => {
+    if (error) { return callback(error, null); }
     if (secp256k1.privateKeyVerify(rand)) {
-      const privateKey = Buffer.from(rand)
-      callback(null, fromPrivateKey(privateKey))
-    } else {
-      generate(callback)
+      const privateKey = Buffer.from(rand);
+      return callback(null, fromPrivateKey(privateKey));
     }
-  })
+    return generate(callback);
+  });
 }
 
 const KeyPair = {
-  generate: generate,
-  fromPrivateKey: fromPrivateKey
-}
+  generate,
+  fromPrivateKey,
+};
 
-module.exports = KeyPair
+module.exports = KeyPair;

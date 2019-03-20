@@ -14,14 +14,11 @@ See the [API documentation]('https://docs.shipl.co')
 
 You can install the library via `npm`:
 
-```sh
-> npm i shipl
+```shell
+npm i shipl
 ```
 
 ## Usage
-
-In order to use it, just import the library and pass the previous params in the constructor.
-By default the library is loaded with the following value, so you just have to pass a private key and then you can start to use Fuel.
 
 The package need to be configured with an ethereum private key or a web3 wallet instance (eg. Metamask)
 
@@ -96,4 +93,4 @@ const shipl = new Shipl({ privateKey, network })
 
 ## Examples
 
-For a more in depth guide, check out our documentation site or clone this repository and check out the sample apps in the `/examples` folder.
+For a more in depth guide, check out our documentation site or clone this repository and check out the sample apps in the [`/examples`](https://github.com/shiplco/shipl-sdk/tree/master/examples/node-integration-tutorial) folder.
