@@ -11,7 +11,7 @@ const HookedWalletSubprovider = require('web3-provider-engine/subproviders/hooke
 const SubscriptionSubprovider = require('web3-provider-engine/subproviders/subscriptions');
 const NonceTrackerSubprovider = require('./services/nonceTracker');
 const WsSubprovider = require('./services/wsSubprovider');
-const HttpSubprovider = require('./services/httpSubprovider.js');
+const HttpSubprovider = require('./services/httpSubprovider.js').default;
 const TxRelaySigner = require('./services/shipl-eth-signer/txRelaySigner');
 const KeyPair = require('./services/shipl-eth-signer/generators/keyPair');
 const InternalTxDisecter = require('./services/decoder');
@@ -256,7 +256,7 @@ class Provider {
       );
     }
     engine.on('error', (error) => {
-      console.error(error.stack);
+      console.error('Engine Error: ', error.stack);
       throw error; // FIXME: Catch Error
     });
     engine.start();

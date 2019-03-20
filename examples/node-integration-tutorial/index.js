@@ -3,10 +3,10 @@ const Shipl = require('shipl');
 const Web3 = require('web3');
 const readline = require('readline-sync');
 const { Wallet } = require('ethers');
-const targetContractArtifact = require('./exampleContract.json');
+const targetContractArtifact = require('./targetContract.json');
 
 // eslint-disable-next-line new-cap
-const {privateKey} = new Wallet.createRandom(); // We generate a random ethereum private key
+const { privateKey } = new Wallet.createRandom(); // We generate a random ethereum private key
 
 async function start() {
   // We instenciate the shipl sdk with the privateKey and the choosen network
