@@ -1,10 +1,10 @@
 /* eslint-disable no-console */
 /* eslint-disable no-underscore-dangle */
 // eslint-disable-next-line global-require
-const WebSocket = global.WebSocket || require('ws'); // FIXME: 'ws' should be listed in the project's dependencies. Run 'npm i -S ws' to add i
+const WebSocket = global.WebSocket || require('ws');
 const createPayload = require('web3-provider-engine/util/create-payload');
 const axios = require('axios');
-const Backoff = require('backoff'); // FIXME: 'backoff' should be listed in the project's dependencies. Run 'npm i -S backoff'
+const Backoff = require('backoff');
 const EventEmitter = require('events');
 const Subprovider = require('./subprovider');
 
@@ -40,7 +40,7 @@ class WsSubprovider extends Subprovider {
     this._openSocket();
   }
 
-  handleRequest(payload, next, end, ...args) { // FIXME: don't use 'arguments'
+  handleRequest(payload, next, end, ...args) {
     if (!this.socket || this.socket.readyState !== WebSocket.OPEN) {
       this.unhandledRequests.push(Array.from(args));
       this.log('Socket not open. Request queued.');
@@ -106,7 +106,6 @@ class WsSubprovider extends Subprovider {
     this.pendingRequests.clear();
     const unhandledRequests = this.unhandledRequests.splice(0, this.unhandledRequests.length);
     unhandledRequests.forEach((request) => {
-      // FIXME: Use the spread operator instead of '.apply()'
       // eslint-disable-next-line prefer-spread
       this.handleRequest.apply(this, request);
     });

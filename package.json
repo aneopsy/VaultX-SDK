@@ -45,6 +45,7 @@
     "request": "^2.85.0",
     "rlp": "^2.2.3",
     "solidity-sha3": "^0.4.1",
+    "tweetnacl": "^1.0.1",
     "uport-identity": "^2.0.1",
     "util": "^0.11.0",
     "web3": "^1.0.0-beta.33",

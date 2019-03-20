@@ -4,7 +4,7 @@ const { blockTagForPayload } = require('web3-provider-engine/util/rpc-cache-util
 const Subprovider = require('./subprovider');
 
 class NonceTrackerSubprovider extends Subprovider {
-  constructor() { // FIXME: remove unused var 'opts'
+  constructor() {
     super();
     this.nonceCache = {};
     this.handleRequest = this.handleRequest.bind(this);
@@ -29,7 +29,7 @@ class NonceTrackerSubprovider extends Subprovider {
               if (self.nonceCache[address] === undefined) {
                 self.nonceCache[address] = result;
               }
-              return cb(); // FIXME: Expected to return a value at the end of arrow function.
+              return cb();
             });
           }
         } else {
@@ -45,7 +45,7 @@ class NonceTrackerSubprovider extends Subprovider {
           const tx = new Transaction(Buffer.from(ethUtil.stripHexPrefix(rawTx), 'hex'));
           address = `0x${tx.to.toString('hex')}`;
           let nonce = ethUtil.bufferToInt(tx.nonce);
-          nonce += 1; // FIXME: no-plusplus
+          nonce += 1;
           let hexNonce = nonce.toString(16);
           if (hexNonce.length % 2) {
             hexNonce = `0${hexNonce}`;

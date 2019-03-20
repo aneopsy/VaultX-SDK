@@ -75,7 +75,6 @@ class TxRelaySigner {
     return util.ecsign(Buffer.from(util.stripHexPrefix(msgHash), 'hex'), Buffer.from(util.stripHexPrefix(this.keypair.privateKey), 'hex'));
   }
 
-  // FIXME: Don't use 'this', make it static
   static decodeMetaTx(rawMetaSignedTx) {
     const tx = new Transaction(Buffer.from(rawMetaSignedTx, 'hex'));
     const txData = tx.data.toString('hex');

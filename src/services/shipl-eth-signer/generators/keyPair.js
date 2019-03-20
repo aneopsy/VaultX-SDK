@@ -1,25 +1,25 @@
-const util = require('ethereumjs-util')
-const secp256k1 = util.secp256k1
-const Random = require('./random')
+const util = require('ethereumjs-util');
+const secp256k1 = util.secp256k1;
+const Random = require('./random');
 
-function hex0x (buffer) {
-  return util.addHexPrefix(buffer.toString('hex'))
+function hex0x(buffer) {
+  return util.addHexPrefix(buffer.toString('hex'));
 }
 
-function fromPrivateKey (privateKey) {
+function fromPrivateKey(privateKey) {
   if (!Buffer.isBuffer(privateKey)) {
-    privateKey = Buffer.from(privateKey, 'hex')
+    privateKey = Buffer.from(privateKey, 'hex');
   }
 
-  const publicKey = util.privateToPublic(privateKey)
+  const publicKey = util.privateToPublic(privateKey);
   return {
     privateKey: hex0x(privateKey),
     publicKey: hex0x(publicKey),
-    address: hex0x(util.pubToAddress(publicKey))
+    address: hex0x(util.pubToAddress(publicKey));
   }
 }
 
-function generate (callback) {
+function generate(callback) {
   if (!Random.randomBytes) {
     Random.randomBytes = Random.naclRandom
   }

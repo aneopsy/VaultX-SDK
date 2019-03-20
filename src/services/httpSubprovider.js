@@ -2,7 +2,7 @@
 // eslint-disable-next-line global-require
 const xhr = require('request') || window.xhr;
 const createPayload = require('web3-provider-engine/util/create-payload.js');
-const JsonRpcError = require('json-rpc-error'); // FIXME: 'json-rpc-error' should be listed in the project's dependencies. Run 'npm i -S json-rpc-error' to add it
+const JsonRpcError = require('json-rpc-error');
 const Subprovider = require('./subprovider.js');
 
 class RpcSource extends Subprovider {
@@ -39,7 +39,6 @@ class RpcSource extends Subprovider {
         case 405:
           return end(new JsonRpcError.MethodNotFound());
         case 504: // Gateway timeout
-          // FIXME: Change it
           // eslint-disable-next-line no-case-declarations
           const errorTmp = new Error('Gateway timeout. The request took too long to process. This can happen when querying logs over too wide a block range.');
           return end(new JsonRpcError.InternalError(errorTmp));

@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 const Transaction = require('ethereumjs-tx');
 const coder = require('web3-eth-abi');
-const rlp = require('rlp'); // FIXME: 'rlp' should be listed in the project's dependencies. Run 'npm i -S rlp' to add it
+const rlp = require('rlp');
 const CryptoJS = require('crypto-js');
 
 function add0x(input) {
@@ -47,7 +47,7 @@ function functionTx(abi, functionName, args, txObject) {
   const types = _getTypesFromAbi(abi, functionName);
   const txData = _encodeFunctionTxData(functionName, types, args);
 
-  const txObjectCopy = {}; // FIXME: never reassign
+  const txObjectCopy = {};
   txObjectCopy.to = add0x(txObject.to);
   txObjectCopy.gasPrice = add0x(txObject.gasPrice);
   txObjectCopy.gasLimit = add0x(txObject.gasLimit);
@@ -67,7 +67,7 @@ function createdContractAddress(fromAddress, nonce) {
 }
 
 function createContractTx(fromAddress, txObject) {
-  const txObjectCopy = {}; // FIXME: never reassign
+  const txObjectCopy = {};
   txObjectCopy.to = add0x(txObject.to);
   txObjectCopy.gasPrice = add0x(txObject.gasPrice);
   txObjectCopy.gasLimit = add0x(txObject.gasLimit);
@@ -82,7 +82,7 @@ function createContractTx(fromAddress, txObject) {
 }
 
 function valueTx(txObject) {
-  const txObjectCopy = {}; // FIXME: never reassign
+  const txObjectCopy = {};
   txObjectCopy.to = add0x(txObject.to);
   txObjectCopy.gasPrice = add0x(txObject.gasPrice);
   txObjectCopy.gasLimit = add0x(txObject.gasLimit);
@@ -93,7 +93,6 @@ function valueTx(txObject) {
   return tx.serialize().toString('hex');
 }
 
-// FIXME: Expected property shorthand.
 module.exports = {
   _encodeFunctionTxData,
   _decodeFunctionTxData,

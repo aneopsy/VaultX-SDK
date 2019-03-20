@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 const BlueBird = require('bluebird');
-const Transaction = require('ethereumjs-tx');// FIXME: not in dep
+const Transaction = require('ethereumjs-tx');
 const UportIdentity = require('uport-identity');
 const Web3 = require('web3');
 const ProviderEngine = require('web3-provider-engine');
@@ -86,14 +86,13 @@ class Provider {
         this.txSenderAddress = '';
         break;
       default:
-        // FIXME: default
         this.rpcUrl = rpcUrl;
         this.txRelayAddress = txRelayAddress;
         this.metaIdentityManagerAddress = metaIdentityManagerAddress;
         this.txSenderAddress = txSenderAddress;
         break;
     }
-    this.isWeb3Provided = web3Provider !== undefined; // FIXME: useless
+    this.isWeb3Provided = web3Provider !== undefined;
     this.web3 = this.isWeb3Provided === true
       ? new Web3(web3Provider.currentProvider)
       : new Web3(this.rpcUrl);
@@ -207,7 +206,7 @@ class Provider {
           txParams.to = this.metaIdentityManagerAddress;
 
           const tx = new Transaction(txParams);
-          const rawTx = `0x${tx.serialize().toString('hex')}`; // FIXME: '0x' + tx.serialize().toString('hex')
+          const rawTx = `0x${tx.serialize().toString('hex')}`;
           let metaSignedTx;
           if (this.isWeb3Provided === true) {
             metaSignedTx = await this.txRelaySigner.signRawTx(
@@ -257,7 +256,7 @@ class Provider {
     }
     engine.on('error', (error) => {
       console.error('Engine Error: ', error.stack);
-      throw error; // FIXME: Catch Error
+      throw error;
     });
     engine.start();
     return engine;

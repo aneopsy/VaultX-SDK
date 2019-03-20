@@ -8,7 +8,6 @@ class Subprovider {
     });
   }
 
-  // FIXME: make it static
   // eslint-disable-next-line no-unused-vars
   static handleRequest(payload, next, end) {
     throw new Error('Subproviders should override `handleRequest`.');

@@ -81,7 +81,7 @@ class IdMngt {
       const identity = await this.lookupIdCreation(address);
       identity.authToken = this.authToken;
       return identity;
-    } // FIXME: Useless else
+    }
     this.authToken = await this.renewToken(this.senderKeyPair.address);
     idExist.authToken = this.authToken;
     return idExist;
