@@ -15,7 +15,7 @@ function fromPrivateKey(privateKey) {
   return {
     privateKey: hex0x(privateKey),
     publicKey: hex0x(publicKey),
-    address: hex0x(util.pubToAddress(publicKey));
+    address: hex0x(util.pubToAddress(publicKey))
   }
 }
 
